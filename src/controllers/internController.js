@@ -3,7 +3,8 @@ const CollegeModel = require("../models/collegeModel")
 const {
     isValid,
     isValidEmail,
-    isValidMobile
+    isValidMobile,
+    isValidName
 } = require("../validation/validation")
 
 const createIntern = async (req, res) => {
@@ -23,6 +24,12 @@ const createIntern = async (req, res) => {
             })
         }
         data.name = data.name.trim()
+        if (!isValidName(data.name)) {
+            return res.status(400).send({
+                status: false,
+                message: "Name should be string..!!"
+            })
+        }
 
         if (!isValid(data.email)) {
             return res.status(400).send({
@@ -77,6 +84,12 @@ const createIntern = async (req, res) => {
             })
         }
         data.collegeName = data.collegeName.trim()
+        if (!isValidName(data.collegeName)) {
+            return res.status(400).send({
+                status: false,
+                message: "Name should be string..!!"
+            })
+        }
 
         const checkCollege = await CollegeModel.findOne({
             $or: [{

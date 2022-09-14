@@ -1,7 +1,7 @@
 // const mongoose = require("")
 const CollegeModel = require("../models/collegeModel")
 const InternModel = require("../models/internModel")
-const {isValid} = require("../validation/validation")
+const {isValid, isValidName} = require("../validation/validation")
 
 const createCollege = async (req, res) => {
     try {
@@ -21,6 +21,13 @@ const createCollege = async (req, res) => {
             })
         }
         data.name = data.name.trim()
+        if (!isValidName(data.name)) {
+            return res.status(400).send({
+                status: false,
+                message: "Name should be string..!!"
+            })
+        }
+
         const checkDuplicateName = await CollegeModel.findOne({
             name: data.name
         })
@@ -38,6 +45,12 @@ const createCollege = async (req, res) => {
             })
         }
         data.fullName = data.fullName.trim()
+        if (!isValidName(data.fullName)) {
+            return res.status(400).send({
+                status: false,
+                message: "Full Name should be string..!!"
+            })
+        }
 
         if (!isValid(data.logoLink)) {
             return res.status(400).send({
