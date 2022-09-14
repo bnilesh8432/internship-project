@@ -1,5 +1,6 @@
 // const mongoose = require("")
 const CollegeModel = require("../models/collegeModel")
+const InternModel = require("../models/internModel")
 
 const createCollege = async(req, res) => {
     try {
@@ -35,4 +36,29 @@ const createCollege = async(req, res) => {
     }
 }
 
+const collegeDetails = async function(req, res){
+    try {
+        let collegeName = req.query.collegeName
+
+        var findCollege = await CollegeModel.findOne({name: collegeName, isDeleted: false}).select({name: 1, fullName: 1, logoLink: 1})
+
+        if(!findCollege){
+            return res.status(404).send({ status: false, message: "No such college" })
+        }
+
+        let interns = await InternModel.find({collegeId: findCollege["_id"], isDeleted: false}).select({name:1, email:1, mobile:1, _id:1})
+
+        // findCollege.interns = interns
+        // let details = {...findCollege,interns : interns}
+
+        let details = {name: findCollege.name, fullName: findCollege.fullName,logoLink: findCollege.logoLink, interns: interns}
+
+        res.status(200).send({status: true, data: details})
+
+    } catch (error) {
+        res.status(500).send({ status: false, message: error })
+    }
+}
+
 module.exports.createCollege = createCollege 
+module.exports.collegeDetails = collegeDetails 
