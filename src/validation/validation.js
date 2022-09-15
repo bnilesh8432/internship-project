@@ -10,6 +10,11 @@ const isValidName = function (value) {
   if (nameRegex.test(value)) return true;
 };
 
+const isValidCollegeName = function (value) {
+  let nameRegex =
+  /^[a-z ,.'-]+$/i;
+  if (nameRegex.test(value)) return true;
+};
 const isValidEmail = function (value) {
     let emailRegex =
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-z\-0-9]+\.)+[a-z]{2,}))$/;
@@ -27,5 +32,6 @@ module.exports ={
     isValid,
     isValidEmail,
     isValidMobile,
-    isValidName
+    isValidName,
+    isValidCollegeName
 }

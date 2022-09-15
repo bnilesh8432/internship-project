@@ -1,7 +1,7 @@
 // const mongoose = require("")
 const CollegeModel = require("../models/collegeModel")
 const InternModel = require("../models/internModel")
-const {isValid, isValidName} = require("../validation/validation")
+const {isValid, isValidName,isValidCollegeName} = require("../validation/validation")
 
 const createCollege = async (req, res) => {
     try {
@@ -45,10 +45,10 @@ const createCollege = async (req, res) => {
             })
         }
         data.fullName = data.fullName.trim()
-        if (!isValidName(data.fullName)) {
+        if (!isValidCollegeName(data.fullName)) {
             return res.status(400).send({
                 status: false,
-                message: "Full Name should be string..!!"
+                message: "plz use only alphabates and special characters likes(,.'-) in full name..!!"
             })
         }
 
@@ -68,7 +68,7 @@ const createCollege = async (req, res) => {
     } catch (error) {
         return res.status(500).send({
             status: false,
-            message: error
+            message: error.message
         })
     }
 }
@@ -76,6 +76,13 @@ const createCollege = async (req, res) => {
 const collegeDetails = async function(req, res) {
     try {
         let collegeName = req.query.collegeName
+
+        if(!collegeName){
+            return res.status(400).send({
+                status: false,
+                message: "Plz enter College Name..!!"
+            })
+        }
 
         var findCollege = await CollegeModel.findOne({
             name: collegeName,

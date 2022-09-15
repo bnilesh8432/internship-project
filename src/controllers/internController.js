@@ -1,3 +1,4 @@
+const mongoose= require('mongoose')
 const InternModel = require("../models/internModel")
 const CollegeModel = require("../models/collegeModel")
 const {
