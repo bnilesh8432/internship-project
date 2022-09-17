@@ -1,4 +1,4 @@
-const mongoose= require('mongoose')
+//const mongoose= require('mongoose')
 const InternModel = require("../models/internModel")
 const CollegeModel = require("../models/collegeModel")
 const {
@@ -93,11 +93,8 @@ const createIntern = async (req, res) => {
         }
 
         const checkCollege = await CollegeModel.findOne({
-            $or: [{
-                name: data.collegeName
-            }, {
-                fullName: data.collegeName
-            }]
+            name: data.collegeName,
+            isDeleted : false
         })
 
         if (!checkCollege) {

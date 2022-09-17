@@ -28,10 +28,18 @@ const isValidEmail = function (value) {
     if (mobileRegex.test(value)) return true;
   };
 
+  const isValidLogoLink = function (value) {
+    let linkRegex =
+    /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/;
+      
+    if (linkRegex.test(value)) return true;
+  };
+
 module.exports ={
     isValid,
     isValidEmail,
     isValidMobile,
     isValidName,
-    isValidCollegeName
+    isValidCollegeName,
+    isValidLogoLink
 }

@@ -1,7 +1,7 @@
 // const mongoose = require("")
 const CollegeModel = require("../models/collegeModel")
 const InternModel = require("../models/internModel")
-const {isValid, isValidName,isValidCollegeName} = require("../validation/validation")
+const {isValid, isValidName,isValidCollegeName,isValidLogoLink} = require("../validation/validation")
 
 const createCollege = async (req, res) => {
     try {
@@ -59,6 +59,13 @@ const createCollege = async (req, res) => {
             })
         }
         data.logoLink = data.logoLink.trim()
+
+        if(!isValidLogoLink(data.logoLink)) {
+            return res.status(400).send({
+                status: false,
+                message: "Plz enter valid LogoLink..!!"
+            })
+        }
 
         const savedData = await CollegeModel.create(data)
         return res.status(201).send({
